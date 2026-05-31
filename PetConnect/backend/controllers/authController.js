@@ -1,7 +1,7 @@
 // backend/controllers/authController.js
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+// const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 
@@ -46,8 +46,8 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(401).json({ error: 'Invalid credentials' });
     console.log('🔍 Login email:', email);
-    console.log('🔐 Stored password:', user.password);
-    console.log('🔑 Entered password:', password);
+    // console.log(' Stored password:', user.password);
+    // console.log('Entered password:', password);
 
     const match = await bcrypt.compare(password, user.password);
     console.log('✅ Password match result:', match);
