@@ -44,6 +44,3 @@ npm install
 npm start         # http://localhost:3000
 ```
 
-## Course Context
-
-CSE470: Software Engineering. 
