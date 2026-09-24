@@ -9,7 +9,7 @@ const uploadMiddleware = require('../middleware/uploadMiddleware');
 router.post('/', authMiddleware, uploadMiddleware.single('photo'), postController.createPost);
 
 // Get all posts (public feed)
-router.get('/', authMiddleware, postController.getAllPosts);
+router.get('/', postController.getAllPosts);
 
 // Get posts by logged-in user
 router.get('/user', authMiddleware, postController.getUserPosts);

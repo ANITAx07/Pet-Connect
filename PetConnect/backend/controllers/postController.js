@@ -77,7 +77,7 @@ exports.likePost = async (req, res) => {
     const post = await Post.findById(postId);
     if (!post) return res.status(404).json({ message: 'Post not found' });
 
-    if (post.likes.includes(userId)) {
+    if (post.likes.some(like => like.toString() === userId)) {
       return res.status(400).json({ message: 'Post already liked' });
     }
 
@@ -111,7 +111,7 @@ exports.unlikePost = async (req, res) => {
     const post = await Post.findById(postId);
     if (!post) return res.status(404).json({ message: 'Post not found' });
 
-    post.likes = post.likes.filter(id => !id.equals(userId));
+    post.likes = post.likes.filter(id => id.toString() !== userId);
     await post.save();
     res.json(post);
   } catch (error) {

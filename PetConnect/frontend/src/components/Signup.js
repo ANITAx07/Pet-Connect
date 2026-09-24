@@ -20,6 +20,7 @@ export default function Signup() {
       alert(res.data.message || 'Signup successful!');
 
       const user = res.data.user;
+      localStorage.setItem('token', res.data.token);
       localStorage.setItem('userId', user._id);
       localStorage.setItem('userRole', user.role || 'user');
       localStorage.setItem('userName', user.name);
@@ -29,7 +30,8 @@ export default function Signup() {
 
       window.location.href = '/profile';
     } catch (err) {
-      alert(err.response?.data?.message || 'Signup failed');
+      const data = err.response?.data;
+      alert(data?.message || data?.details || data?.error || err.message || 'Signup failed');
     }
   };
 
@@ -44,6 +46,14 @@ export default function Signup() {
       <form className="signup-form" onSubmit={handleSubmit}>
         <h2>🐶 Join the Pack 🐾</h2>
         <p className="subtitle">Be part of something paw-some.</p>
+        <label>Name</label>
+        <input
+          type="text"
+          value={name}
+          required
+          onChange={e => setName(e.target.value)}
+        />
+
         <label>Email</label>
         <input
           type="email"

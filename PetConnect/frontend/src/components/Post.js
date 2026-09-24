@@ -14,7 +14,7 @@ const Post = ({ post, refreshPosts }) => {
   const token = localStorage.getItem('token');
 
   const isOwner = post.user._id === userId;
-  const hasLiked = post.likes.includes(userId);
+  const hasLiked = post.likes.some(like => String(like) === userId);
 
   const handleLike = async () => {
     try {
@@ -23,6 +23,16 @@ const Post = ({ post, refreshPosts }) => {
       refreshPosts();
     } catch (error) {
       console.error('Failed to update like', error);
+      if (error.response?.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userName');
+        alert('Your session has expired. Please log in again.');
+        window.location.href = '/login';
+        return;
+      }
+      alert(error.response?.data?.message || 'Unable to update like');
     }
   };
 

@@ -10,6 +10,7 @@ export default function AdoptPage() {
   const [selectedPet, setSelectedPet] = useState(null); 
   const [searchTerm, setSearchTerm] = useState(''); 
   const [favorites, setFavorites] = useState([]); // To store favorite pets
+  const [loadError, setLoadError] = useState('');
 //
   useEffect(() => {
     fetchPets();
@@ -26,8 +27,9 @@ export default function AdoptPage() {
       const availablePets = res.data.filter((pet) => pet.status === 'available');
       setPets(availablePets);
       setFilteredPets(availablePets);
+      setLoadError('');
     } catch (err) {
-      alert('Failed to fetch pets');
+      setLoadError('Unable to load pets. Please make sure MongoDB and the backend server are running.');
     }
   };
 
@@ -143,7 +145,9 @@ export default function AdoptPage() {
 
       {/* Pet Grid */}
       <div className="pet-grid">
-        {filteredPets.map((pet) => (
+        {loadError ? (
+          <p className="no-pets">{loadError}</p>
+        ) : filteredPets.map((pet) => (
           <div key={pet._id} className="pet-box" onClick={() => setSelectedPet(pet)}>
             <img src={`http://localhost:5000${pet.image}`} alt={pet.name} />
             <div className="pet-info">
