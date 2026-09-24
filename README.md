@@ -46,4 +46,4 @@ npm start         # http://localhost:3000
 
 ## Course Context
 
-CSE470: Software Engineering, Section 10, Summer 2025 — Anita Haque Sushma (ID: 22301050).
+CSE470: Software Engineering. 
