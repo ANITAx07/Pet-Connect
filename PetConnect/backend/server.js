@@ -14,12 +14,6 @@ app.use(express.json());
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// ===== MongoDB Connection =====
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
-
 // ===== Routes =====
 const petRoutes = require('./routes/petRoutes');
 const authRoutes = require('./routes/auth');
@@ -43,9 +37,20 @@ app.get('/', (req, res) => {
   res.send('🐾 PetConnect API is alive!');
 });
 
-//Start Server 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('✅ MongoDB connected');
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+  } catch (err) {
+    console.error('❌ MongoDB connection error:', err.message);
+    process.exitCode = 1;
+  }
+};
+
+startServer();
 
 // Export app for testing
 module.exports = app;

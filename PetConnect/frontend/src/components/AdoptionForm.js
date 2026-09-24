@@ -55,7 +55,7 @@ export default function AdoptionForm() {
       alert('✅ Request submitted!');
       navigate('/my-adoptions');
     } catch (err) {
-      alert('❌ Failed to submit request');
+      alert(`❌ ${err.response?.data?.error || 'Failed to submit request'}`);
     }
   };
 

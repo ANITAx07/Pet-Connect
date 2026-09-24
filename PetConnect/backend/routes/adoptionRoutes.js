@@ -1,4 +1,3 @@
-// backend/routes/adoptionRoutes.js
 const express = require('express');
 const router = express.Router();
 const Adoption = require('../models/AdoptionRequest');
@@ -6,38 +5,21 @@ const Notification = require('../models/Notification');
 const Pet = require('../models/Pet');
 const User = require('../models/User');
 
-//  Submit an adoption request
 router.post('/request', async (req, res) => {
-  const {
-    userId,
-    petId,
-    name,
-    address,
-    phone,
-    hadPetBefore,
-    carePlan,
-    estimatedCost,
-    deliveryRequested
-  } = req.body;
+  const { userId, petId, name, address, phone, hadPetBefore, carePlan, estimatedCost, deliveryRequested } = req.body;
 
   try {
-    const newRequest = new Adoption({
-      userId,
-      petId,
-      name,
-      address,
-      phone,
-      hadPetBefore,
-      carePlan,
-      estimatedCost,
-      deliveryRequested,
-      status: 'pending'
+    const pet = await Pet.findById(petId);
+    if (!pet) return res.status(404).json({ error: 'Pet not found' });
+    if (pet.status !== 'available') return res.status(409).json({ error: 'This pet is no longer available' });
+
+    const existingRequest = await Adoption.findOne({ userId, petId, status: { $in: ['pending', 'approved'] } });
+    if (existingRequest) return res.status(409).json({ error: 'You already have an active request for this pet' });
+
+    const newRequest = await Adoption.create({
+      userId, petId, name, address, phone, hadPetBefore, carePlan, estimatedCost, deliveryRequested, status: 'pending'
     });
 
-    await newRequest.save();
-    
-    // Notify admins about new adoption request
-    const pet = await Pet.findById(petId);
     const adminUsers = await User.find({ role: 'admin' });
     for (const admin of adminUsers) {
       await Notification.create({
@@ -48,42 +30,30 @@ router.post('/request', async (req, res) => {
       });
     }
 
-    res.status(201).json({
-      message: 'Adoption request submitted',
-      request: newRequest
-    });
+    res.status(201).json({ message: 'Adoption request submitted', request: newRequest });
   } catch (err) {
-    console.error(err); // 🧪 log full error
-    res.status(500).json({
-      error: 'Failed to submit adoption request',
-      details: err.message
-    });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to submit adoption request', details: err.message });
   }
 });
 
-//  Get all adoption requests for a specific user
 router.get('/my-requests/:userId', async (req, res) => {
-  const { userId } = req.params;
-
   try {
-    const requests = await Adoption.find({ userId })
+    const requests = await Adoption.find({ userId: req.params.userId })
       .populate('petId', 'name image breed age')
       .sort({ createdAt: -1 });
-
     res.status(200).json(requests);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch requests', details: err.message });
   }
 });
 
-//Admin: Get all adoption requests
 router.get('/admin/adoption-requests', async (req, res) => {
   try {
     const requests = await Adoption.find()
       .populate('petId', 'name image breed age')
       .populate('userId', 'name email')
       .sort({ createdAt: -1 });
-
     res.status(200).json(requests);
   } catch (err) {
     console.error(err);
@@ -91,53 +61,65 @@ router.get('/admin/adoption-requests', async (req, res) => {
   }
 });
 
-
-
 router.put('/admin/adoption-requests/:id/status', async (req, res) => {
-    const { id } = req.params;
-    const { status } = req.body;
+  const { status } = req.body;
+  const validStatuses = ['pending', 'approved', 'rejected'];
 
-    try {
-        const request = await Adoption.findById(id); // Find the request by ID
-        if (!request) return res.status(404).json({ error: 'Request not found' });
+  try {
+    if (!validStatuses.includes(status)) return res.status(400).json({ error: 'Invalid request status' });
 
-        request.status = status; // Update the status
-        await request.save(); // Save the updated request
+    const request = await Adoption.findById(req.params.id);
+    if (!request) return res.status(404).json({ error: 'Request not found' });
 
-        // Create notification for user on approval or rejection
-        if (status === 'approved' || status === 'rejected') {
-            const pet = await Pet.findById(request.petId);
-            const message = `Your adoption request for ${pet.name} has been ${status}.`;
-            const notification = new Notification({
-                userId: request.userId,
-                type: `adoption_${status}`,
-                message,
-                relatedId: request._id
-            });
-            await notification.save();
-        }
+    const previousStatus = request.status;
+    const pet = await Pet.findById(request.petId);
+    if (!pet) return res.status(404).json({ error: 'Pet not found' });
 
-        res.status(200).json({ message: 'Request status updated', request });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to update status', details: err.message });
+    if (status === 'approved' && previousStatus !== 'approved') {
+      const anotherApprovedRequest = await Adoption.findOne({
+        petId: request.petId, status: 'approved', _id: { $ne: request._id }
+      });
+      if (anotherApprovedRequest) return res.status(409).json({ error: 'This pet already has an approved adoption request' });
+      if (pet.status !== 'available') return res.status(409).json({ error: 'This pet is no longer available' });
+      pet.status = 'adopted';
+      await pet.save();
     }
+
+    request.status = status;
+    await request.save();
+
+    if ((status === 'approved' || status === 'rejected') && previousStatus !== status) {
+      await Notification.create({
+        userId: request.userId,
+        type: `adoption_${status}`,
+        message: `Your adoption request for ${pet.name} has been ${status}.`,
+        relatedId: request._id
+      });
+    }
+
+    if (status === 'rejected' && previousStatus === 'approved') {
+      const anotherApprovedRequest = await Adoption.exists({ petId: request.petId, status: 'approved' });
+      if (!anotherApprovedRequest) {
+        pet.status = 'available';
+        await pet.save();
+      }
+    }
+
+    res.status(200).json({ message: 'Request status updated', request });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update status', details: err.message });
+  }
 });
 
-module.exports = router;
-
-//  Update payment status after approval
 router.put('/pay/:requestId', async (req, res) => {
-  const { requestId } = req.params;
   const { platformFeePaid, deliveryFeePaid } = req.body;
 
   try {
-    const request = await Adoption.findById(requestId);
+    const request = await Adoption.findById(req.params.requestId);
     if (!request) return res.status(404).json({ error: 'Request not found' });
-
     request.platformFeePaid = platformFeePaid;
     request.deliveryFeePaid = deliveryFeePaid;
-
     await request.save();
     res.status(200).json({ message: 'Payment recorded', request });
   } catch (err) {
@@ -145,21 +127,12 @@ router.put('/pay/:requestId', async (req, res) => {
   }
 });
 
-
-
-// Admin:
-// Get all completed adoption requests
-// Get completed adoptions
 router.get('/admin/adoption-history', async (req, res) => {
   try {
-    const completedAdoptions = await Adoption.find({
-      status: 'approved',
-      platformFeePaid: true,
-    })
+    const completedAdoptions = await Adoption.find({ status: 'approved', platformFeePaid: true })
       .populate('petId', 'name image breed age')
       .populate('userId', 'name email')
       .sort({ createdAt: -1 });
-
     res.status(200).json(completedAdoptions);
   } catch (err) {
     console.error(err);
@@ -167,17 +140,4 @@ router.get('/admin/adoption-history', async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+module.exports = router;

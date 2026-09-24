@@ -31,7 +31,7 @@ export default function AdminAdoptionRequests() {
       fetchRequests();  // Reload the adoption requests after status change
       alert(`✅ Request ${newStatus}`);
     } catch (err) {
-      alert('❌ Failed to update status');
+      alert(`❌ ${err.response?.data?.error || 'Failed to update status'}`);
       console.error('Error updating status:', err); // Log error to debug
     }
   };
