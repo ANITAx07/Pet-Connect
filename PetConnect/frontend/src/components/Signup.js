@@ -11,7 +11,7 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/signup', {
+      const res = await axios.post('https://petconnect-backend-henx.onrender.com/api/auth/signup', {
         name,
         email,
         password
@@ -25,7 +25,7 @@ export default function Signup() {
       localStorage.setItem('userRole', user.role || 'user');
       localStorage.setItem('userName', user.name);
       if (user.avatar) {
-        localStorage.setItem('userAvatar', 'http://localhost:5000' + user.avatar);
+        localStorage.setItem('userAvatar', 'https://petconnect-backend-henx.onrender.com' + user.avatar);
       }
 
       window.location.href = '/profile';
@@ -112,7 +112,7 @@ export default function Signup() {
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     try {
-//       const res = await axios.post('http://localhost:5000/api/auth/signup', {
+//       const res = await axios.post('https://petconnect-backend-henx.onrender.com/api/auth/signup', {
 //         name,
 //         email,
 //         password
@@ -126,7 +126,7 @@ export default function Signup() {
 //       localStorage.setItem('userRole', user.role || 'user');
 //       localStorage.setItem('userName', user.name);
 //       if (user.avatar) {
-//         localStorage.setItem('userAvatar', 'http://localhost:5000' + user.avatar);
+//         localStorage.setItem('userAvatar', 'https://petconnect-backend-henx.onrender.com' + user.avatar);
 //       }
 
 //       // Redirect to profile page

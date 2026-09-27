@@ -65,7 +65,7 @@ const DonateItem = () => {
       Object.keys(formData).forEach(key => data.append(key, formData[key]));
       if (photo) data.append('photo', photo);
 
-      await axios.post('http://localhost:5000/api/donations', data, {
+      await axios.post('https://petconnect-backend-henx.onrender.com/api/donations', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`

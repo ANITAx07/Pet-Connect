@@ -23,7 +23,7 @@ export default function AdoptPage() {
 
   const fetchPets = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/pets');
+      const res = await axios.get('https://petconnect-backend-henx.onrender.com/api/pets');
       const availablePets = res.data.filter((pet) => pet.status === 'available');
       setPets(availablePets);
       setFilteredPets(availablePets);
@@ -38,7 +38,7 @@ export default function AdoptPage() {
     const userId = localStorage.getItem('userId');
     if (userId) {
       try {
-        const res = await axios.get(`http://localhost:5000/api/users/${userId}/favorites`);
+        const res = await axios.get(`https://petconnect-backend-henx.onrender.com/api/users/${userId}/favorites`);
         // Map pet objects to array of pet IDs
         const favoritePetIds = res.data.map(pet => pet._id);
         setFavorites(favoritePetIds);
@@ -61,7 +61,7 @@ export default function AdoptPage() {
   const handleAdopt = async (petId) => {
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/adoptions/request',
+        'https://petconnect-backend-henx.onrender.com/api/adoptions/request',
         { petId },
         {
           headers: {
@@ -93,7 +93,7 @@ export default function AdoptPage() {
 
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/users/add-favorite/${userId}`,
+        `https://petconnect-backend-henx.onrender.com/api/users/add-favorite/${userId}`,
         { petId }
       );
       alert("❤️ Pet added to favorites!");
@@ -117,7 +117,7 @@ export default function AdoptPage() {
 
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/users/remove-favorite/${userId}`,
+        `https://petconnect-backend-henx.onrender.com/api/users/remove-favorite/${userId}`,
         { petId }
       );
       alert("❌ Pet removed from favorites!");
@@ -149,7 +149,7 @@ export default function AdoptPage() {
           <p className="no-pets">{loadError}</p>
         ) : filteredPets.map((pet) => (
           <div key={pet._id} className="pet-box" onClick={() => setSelectedPet(pet)}>
-            <img src={`http://localhost:5000${pet.image}`} alt={pet.name} />
+            <img src={`https://petconnect-backend-henx.onrender.com${pet.image}`} alt={pet.name} />
             <div className="pet-info">
               <h4>
                 {pet.name}

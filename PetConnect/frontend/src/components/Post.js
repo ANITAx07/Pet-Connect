@@ -18,7 +18,7 @@ const Post = ({ post, refreshPosts }) => {
 
   const handleLike = async () => {
     try {
-      const url = `http://localhost:5000/api/posts/${post._id}/${hasLiked ? 'unlike' : 'like'}`;
+      const url = `https://petconnect-backend-henx.onrender.com/api/posts/${post._id}/${hasLiked ? 'unlike' : 'like'}`;
       await axios.post(url, {}, { headers: { Authorization: `Bearer ${token}` } });
       refreshPosts();
     } catch (error) {
@@ -39,7 +39,7 @@ const Post = ({ post, refreshPosts }) => {
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this post?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${post._id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`https://petconnect-backend-henx.onrender.com/api/posts/${post._id}`, { headers: { Authorization: `Bearer ${token}` } });
       refreshPosts();
     } catch (error) {
       console.error('Failed to delete post', error);
@@ -49,7 +49,7 @@ const Post = ({ post, refreshPosts }) => {
   const handleAddComment = async () => {
     if (!commentText.trim()) return;
     try {
-      await axios.post(`http://localhost:5000/api/posts/${post._id}/comment`, { text: commentText }, {
+      await axios.post(`https://petconnect-backend-henx.onrender.com/api/posts/${post._id}/comment`, { text: commentText }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setCommentText('');
@@ -83,7 +83,7 @@ const Post = ({ post, refreshPosts }) => {
       if (editPhoto) {
         formData.append('photo', editPhoto);
       }
-      await axios.put(`http://localhost:5000/api/posts/${post._id}`, formData, {
+      await axios.put(`https://petconnect-backend-henx.onrender.com/api/posts/${post._id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -126,7 +126,7 @@ const Post = ({ post, refreshPosts }) => {
         {!isEditing ? (
           <>
             <p>{post.content}</p>
-            {post.photo && <img src={`http://localhost:5000/uploads/${post.photo}`} alt="Post" className="post-photo" />}
+            {post.photo && <img src={`https://petconnect-backend-henx.onrender.com/uploads/${post.photo}`} alt="Post" className="post-photo" />}
           </>
         ) : (
           <>
@@ -155,7 +155,7 @@ const Post = ({ post, refreshPosts }) => {
                 <button className="delete-comment-btn" onClick={async () => {
                   if (!window.confirm('Delete this comment?')) return;
                   try {
-                    await axios.delete(`http://localhost:5000/api/posts/${post._id}/comment/${comment._id}`, {
+                    await axios.delete(`https://petconnect-backend-henx.onrender.com/api/posts/${post._id}/comment/${comment._id}`, {
                       headers: { Authorization: `Bearer ${token}` }
                     });
                     refreshPosts();
@@ -237,7 +237,7 @@ export default Post;
 
 //   const handleLike = async () => {
 //     try {
-//       const url = `http://localhost:5000/api/posts/${post._id}/${hasLiked ? 'unlike' : 'like'}`;
+//       const url = `https://petconnect-backend-henx.onrender.com/api/posts/${post._id}/${hasLiked ? 'unlike' : 'like'}`;
 //       await axios.post(url, {}, { headers: { Authorization: `Bearer ${token}` } });
 //       refreshPosts();
 //     } catch (error) {
@@ -248,7 +248,7 @@ export default Post;
 //   const handleDelete = async () => {
 //     if (!window.confirm('Are you sure you want to delete this post?')) return;
 //     try {
-//       await axios.delete(`http://localhost:5000/api/posts/${post._id}`, { headers: { Authorization: `Bearer ${token}` } });
+//       await axios.delete(`https://petconnect-backend-henx.onrender.com/api/posts/${post._id}`, { headers: { Authorization: `Bearer ${token}` } });
 //       refreshPosts();
 //     } catch (error) {
 //       console.error('Failed to delete post', error);
@@ -258,7 +258,7 @@ export default Post;
 //   const handleAddComment = async () => {
 //     if (!commentText.trim()) return;
 //     try {
-//       await axios.post(`http://localhost:5000/api/posts/${post._id}/comment`, { text: commentText }, {
+//       await axios.post(`https://petconnect-backend-henx.onrender.com/api/posts/${post._id}/comment`, { text: commentText }, {
 //         headers: { Authorization: `Bearer ${token}` }
 //       });
 //       setCommentText('');
@@ -292,7 +292,7 @@ export default Post;
 //       if (editPhoto) {
 //         formData.append('photo', editPhoto);
 //       }
-//       await axios.put(`http://localhost:5000/api/posts/${post._id}`, formData, {
+//       await axios.put(`https://petconnect-backend-henx.onrender.com/api/posts/${post._id}`, formData, {
 //         headers: {
 //           Authorization: `Bearer ${token}`,
 //           'Content-Type': 'multipart/form-data',
@@ -330,7 +330,7 @@ export default Post;
 //         {!isEditing ? (
 //           <>
 //             <p>{post.content}</p>
-//             {post.photo && <img src={`http://localhost:5000/uploads/${post.photo}`} alt="Post" className="post-photo" />}
+//             {post.photo && <img src={`https://petconnect-backend-henx.onrender.com/uploads/${post.photo}`} alt="Post" className="post-photo" />}
 //           </>
 //         ) : (
 //           <>
@@ -362,7 +362,7 @@ export default Post;
 //             const handleDeleteComment = async () => {
 //               if (!window.confirm('Delete this comment?')) return;
 //               try {
-//                 await axios.delete(`http://localhost:5000/api/posts/${post._id}/comment/${comment._id}`, {
+//                 await axios.delete(`https://petconnect-backend-henx.onrender.com/api/posts/${post._id}/comment/${comment._id}`, {
 //                   headers: { Authorization: `Bearer ${token}` }
 //                 });
 //                 refreshPosts();

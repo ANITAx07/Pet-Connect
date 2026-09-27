@@ -29,7 +29,7 @@ export default function Navbar() {
     const userId = localStorage.getItem("userId");
     if (userId) {
       try {
-        const res = await axios.get(`http://localhost:5000/api/notifications/${userId}`);
+        const res = await axios.get(`https://petconnect-backend-henx.onrender.com/api/notifications/${userId}`);
         const unreadCount = res.data.filter(n => !n.read).length;
         setNotificationCount(unreadCount);
       } catch (err) {

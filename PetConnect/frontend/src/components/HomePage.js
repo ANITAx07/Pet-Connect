@@ -31,7 +31,7 @@ function HomePage() {
         return;
       }
 
-      await axios.post('http://localhost:5000/api/posts', formData, {
+      await axios.post('https://petconnect-backend-henx.onrender.com/api/posts', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,

@@ -21,11 +21,11 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/auth/profile?userId=${userId}`);
+        const res = await axios.get(`https://petconnect-backend-henx.onrender.com/api/auth/profile?userId=${userId}`);
         setUser(res.data);
 
         const avatarUrl = res.data.avatar
-          ? `http://localhost:5000${res.data.avatar}`
+          ? `https://petconnect-backend-henx.onrender.com${res.data.avatar}`
           : localStorage.getItem('userAvatar') || '/default-avatar.png';
 
         setPreview(avatarUrl);
@@ -52,7 +52,7 @@ export default function Profile() {
 
   const handleDeleteAvatar = async () => {
     try {
-      const res = await axios.delete(`http://localhost:5000/api/auth/avatar?userId=${userId}`);
+      const res = await axios.delete(`https://petconnect-backend-henx.onrender.com/api/auth/avatar?userId=${userId}`);
       alert(res.data.message || 'Avatar deleted');
       setPreview('/default-avatar.png');
       localStorage.setItem('userAvatar', '/default-avatar.png');
@@ -70,14 +70,14 @@ export default function Profile() {
     if (file) formData.append('avatar', file);
 
     try {
-      const res = await axios.put('http://localhost:5000/api/auth/profile', formData, {
+      const res = await axios.put('https://petconnect-backend-henx.onrender.com/api/auth/profile', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 
       alert(res.data.message || 'Profile updated');
 
       if (res.data.user.avatar) {
-        const avatarPath = `http://localhost:5000${res.data.user.avatar}`;
+        const avatarPath = `https://petconnect-backend-henx.onrender.com${res.data.user.avatar}`;
         localStorage.setItem('userAvatar', avatarPath);
         setPreview(avatarPath);
       }

@@ -22,7 +22,7 @@ export default function AdminManagePets() {
 
   const fetchPets = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/pets');
+      const res = await axios.get('https://petconnect-backend-henx.onrender.com/api/pets');
       setPets(res.data);
     } catch (err) {
       alert('Failed to fetch pets');
@@ -32,7 +32,7 @@ export default function AdminManagePets() {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this pet?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/pets/${id}`);
+        await axios.delete(`https://petconnect-backend-henx.onrender.com/api/pets/${id}`);
         fetchPets();
       } catch (err) {
         alert('Failed to delete pet');
@@ -47,7 +47,7 @@ export default function AdminManagePets() {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/pets/${editPetId}`, editForm);
+      await axios.put(`https://petconnect-backend-henx.onrender.com/api/pets/${editPetId}`, editForm);
       setEditPetId(null);
       fetchPets();
     } catch (err) {
@@ -97,7 +97,7 @@ export default function AdminManagePets() {
         ) : (
           filteredPets.map((pet) => (
             <div key={pet._id} className="pet-card">
-              <img src={`http://localhost:5000${pet.image}`} alt={pet.name} />
+              <img src={`https://petconnect-backend-henx.onrender.com${pet.image}`} alt={pet.name} />
 
               {editPetId === pet._id ? (
                 <>

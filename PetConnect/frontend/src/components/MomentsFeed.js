@@ -11,7 +11,7 @@ const MomentsFeed = () => {
   const fetchPosts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/posts', {
+      const res = await axios.get('https://petconnect-backend-henx.onrender.com/api/posts', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPosts(res.data);

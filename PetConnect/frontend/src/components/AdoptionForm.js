@@ -22,7 +22,7 @@ export default function AdoptionForm() {
   useEffect(() => {
     const fetchPet = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/pets');
+        const res = await axios.get('https://petconnect-backend-henx.onrender.com/api/pets');
         const matched = res.data.find(p => p._id === petId);
         if (matched) setPet(matched);
         else alert('Pet not found!');
@@ -47,7 +47,7 @@ export default function AdoptionForm() {
     if (!userId) return alert('Please login to submit a request.');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/adoptions/request', {
+      const res = await axios.post('https://petconnect-backend-henx.onrender.com/api/adoptions/request', {
         userId,
         petId,
         ...form,

@@ -17,7 +17,7 @@ export default function FavoritePage() {
         alert("Please log in to view your favorites.");
         return;
       }
-      const res = await axios.get(`http://localhost:5000/api/users/${userId}/favorites`);
+      const res = await axios.get(`https://petconnect-backend-henx.onrender.com/api/users/${userId}/favorites`);
       setFavorites(res.data);
     } catch (err) {
       console.error("Error fetching favorites:", err);
@@ -28,7 +28,7 @@ export default function FavoritePage() {
   const handleRemoveFavorite = async (petId) => {
     try {
       const userId = localStorage.getItem("userId");
-      await axios.put(`http://localhost:5000/api/users/remove-favorite/${userId}`, {
+      await axios.put(`https://petconnect-backend-henx.onrender.com/api/users/remove-favorite/${userId}`, {
         petId, // Sending petId to the backend
       });
       setFavorites(favorites.filter((pet) => pet._id !== petId)); // Remove pet from UI
@@ -45,7 +45,7 @@ export default function FavoritePage() {
       <div className="favorite-grid">
         {favorites.map((pet) => (
           <div key={pet._id} className="favorite-box">
-            <img src={`http://localhost:5000${pet.image}`} alt={pet.name} />
+            <img src={`https://petconnect-backend-henx.onrender.com${pet.image}`} alt={pet.name} />
             <div className="favorite-info">
               <h4>{pet.name}</h4>
               <p>Age: {pet.age}</p>

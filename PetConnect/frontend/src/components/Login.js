@@ -11,7 +11,7 @@ export default function Login() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
+      const res = await axios.post('https://petconnect-backend-henx.onrender.com/api/auth/login', {
         email,
         password
       });
@@ -29,7 +29,7 @@ export default function Login() {
       localStorage.setItem('userRole', user.role);
       localStorage.setItem('userName', user.name);
       if (user.avatar) {
-        localStorage.setItem('userAvatar', `http://localhost:5000${user.avatar}`);
+        localStorage.setItem('userAvatar', `https://petconnect-backend-henx.onrender.com${user.avatar}`);
       }
 
       alert(`${message} (Role: ${user.role})`);

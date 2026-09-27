@@ -36,7 +36,7 @@ cd CSE470_Project-
 # Backend
 cd backend
 npm install
-npm start        # http://localhost:5000
+npm start        # https://petconnect-backend-henx.onrender.com
 
 # Frontend
 cd frontend

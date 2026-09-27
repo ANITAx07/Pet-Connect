@@ -14,7 +14,7 @@ export default function MyAdoptions() {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/adoptions/my-requests/${userId}`);
+      const res = await axios.get(`https://petconnect-backend-henx.onrender.com/api/adoptions/my-requests/${userId}`);
       setRequests(res.data);
     } catch (err) {
       alert('Failed to load adoption requests');
@@ -26,7 +26,7 @@ export default function MyAdoptions() {
     if (!confirm) return;
 
     try {
-      await axios.put(`http://localhost:5000/api/adoptions/pay/${requestId}`, {
+      await axios.put(`https://petconnect-backend-henx.onrender.com/api/adoptions/pay/${requestId}`, {
         platformFeePaid: true,
         deliveryFeePaid: deliveryRequested
       });
@@ -104,7 +104,7 @@ export default function MyAdoptions() {
         <div className="adoption-list">
           {requests.map((req) => (
             <div className="adoption-card" key={req._id}>
-              <img src={`http://localhost:5000${req.petId?.image}`} alt={req.petId?.name} />
+              <img src={`https://petconnect-backend-henx.onrender.com${req.petId?.image}`} alt={req.petId?.name} />
               <h3>{req.petId?.name}</h3>
               <p><strong>Breed:</strong> {req.petId?.breed}</p>
               <p><strong>Age:</strong> {req.petId?.age}</p>

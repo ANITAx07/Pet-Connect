@@ -12,7 +12,7 @@ export default function AdminAdoptionRequests() {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/adoptions/admin/adoption-requests');
+      const res = await axios.get('https://petconnect-backend-henx.onrender.com/api/adoptions/admin/adoption-requests');
       setRequests(res.data);
     } catch (err) {
       console.error('Error fetching adoption requests:', err); // Log error to debug
@@ -23,7 +23,7 @@ export default function AdminAdoptionRequests() {
   const handleStatusChange = async (id, newStatus) => {
     try {
       console.log('Updating status for adoption request with ID:', id); // Debug log
-      await axios.put(`http://localhost:5000/api/adoptions/admin/adoption-requests/${id}/status`, {
+      await axios.put(`https://petconnect-backend-henx.onrender.com/api/adoptions/admin/adoption-requests/${id}/status`, {
 
         status: newStatus,
       });
@@ -60,7 +60,7 @@ export default function AdminAdoptionRequests() {
             {requests.map((req) => (
               <tr key={req._id}>
                 <td>
-                  <img src={`http://localhost:5000${req.petId?.image}`} alt="pet" width="60" />
+                  <img src={`https://petconnect-backend-henx.onrender.com${req.petId?.image}`} alt="pet" width="60" />
                   <div>{req.petId?.name}</div>
                 </td>
                 <td>

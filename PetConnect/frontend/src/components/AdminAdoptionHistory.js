@@ -13,7 +13,7 @@ export default function AdminAdoptionHistory() {
 
   const fetchCompletedAdoptions = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/adoptions/admin/adoption-history');
+      const res = await axios.get('https://petconnect-backend-henx.onrender.com/api/adoptions/admin/adoption-history');
       setHistory(res.data);
       setLoading(false);  // Set loading to false after data is fetched
     } catch (err) {
@@ -36,7 +36,7 @@ export default function AdminAdoptionHistory() {
             <div key={item._id} className="history-card">
               {/* Check if pet image exists, otherwise show a default image */}
               <img
-                src={item.petId?.image ? `http://localhost:5000${item.petId.image}` : '/default-pet.jpg'}
+                src={item.petId?.image ? `https://petconnect-backend-henx.onrender.com${item.petId.image}` : '/default-pet.jpg'}
                 alt={item.petId?.name || 'Pet'}
               />
               <div className="info">

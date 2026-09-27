@@ -18,7 +18,7 @@ const MyDonations = () => {
           return;
         }
 
-        const response = await axios.get('http://localhost:5000/api/donations/my-donations', {
+        const response = await axios.get('https://petconnect-backend-henx.onrender.com/api/donations/my-donations', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -50,7 +50,7 @@ const MyDonations = () => {
             <p>Category: {donation.category}</p>
             <p>Condition: {donation.condition}</p>
             <p>Status: {donation.status}</p>
-            {donation.photo && <img src={`http://localhost:5000/uploads/${donation.photo}`} alt={donation.item} />}
+            {donation.photo && <img src={`https://petconnect-backend-henx.onrender.com/uploads/${donation.photo}`} alt={donation.item} />}
           </li>
         ))}
       </ul>

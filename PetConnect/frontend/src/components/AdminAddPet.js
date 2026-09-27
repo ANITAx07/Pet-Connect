@@ -40,7 +40,7 @@ export default function AdminAddPet() {
     formData.append('image', file);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/pets/add', formData, {
+      const res = await axios.post('https://petconnect-backend-henx.onrender.com/api/pets/add', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       alert('✅ Pet added!');

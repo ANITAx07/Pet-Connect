@@ -15,7 +15,7 @@ export default function PetModal({ pet, onClose }) {
 
         <div className="modal-image-container">
           <img
-            src={`http://localhost:5000${pet.image}`}
+            src={`https://petconnect-backend-henx.onrender.com${pet.image}`}
             alt={pet.name}
             className="modal-image"
           />

@@ -17,7 +17,7 @@ const AdminDonationReview = () => {
   const fetchDonations = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/donations', {
+      const response = await axios.get('https://petconnect-backend-henx.onrender.com/api/donations', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -38,7 +38,7 @@ const AdminDonationReview = () => {
   const handleApprove = async (donationId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/donations/${donationId}/approve`, 
+      await axios.put(`https://petconnect-backend-henx.onrender.com/api/donations/${donationId}/approve`, 
         { adminNotes },
         {
           headers: {
@@ -64,7 +64,7 @@ const AdminDonationReview = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/donations/${donationId}/reject`, 
+      await axios.put(`https://petconnect-backend-henx.onrender.com/api/donations/${donationId}/reject`, 
         { adminNotes },
         {
           headers: {
@@ -85,7 +85,7 @@ const AdminDonationReview = () => {
   const handleComplete = async (donationId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/donations/${donationId}/complete`, {}, {
+      await axios.put(`https://petconnect-backend-henx.onrender.com/api/donations/${donationId}/complete`, {}, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -143,7 +143,7 @@ const AdminDonationReview = () => {
 
             {donation.photo && (
               <img 
-                src={`http://localhost:5000/uploads/${donation.photo}`} 
+                src={`https://petconnect-backend-henx.onrender.com/uploads/${donation.photo}`} 
                 alt={donation.item} 
                 className="donation-image"
               />
