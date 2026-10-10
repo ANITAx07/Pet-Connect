@@ -6,7 +6,7 @@ Built for **CSE470: Software Engineering — Summer 2025**, BRAC University.
 
 ## Live Demo
 
-🔗 [Live Website](#) <!-- replace # with your deployed link -->
+🔗 [Live Website](https://pet-connect-mu.vercel.app/) <!-- replace # with your deployed link -->
 
 ## Features
 
