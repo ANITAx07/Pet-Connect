@@ -1,3 +1,4 @@
+/* Post.css */
 /* Avatar Circle */
 .avatar-circle {
   background-color: #ff9b72;
@@ -127,3 +128,30 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Single post page */
+.post-page {
+  max-width: 700px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.post-page .back-btn {
+  background: #f08080;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.post-page .back-btn:hover {
+  background: #d2691e;
+}
+
+.post-page .post-photo {
+  max-height: 500px;
+  object-fit: contain;
+  background: #fff3ec;
+}
