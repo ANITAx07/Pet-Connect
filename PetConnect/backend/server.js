@@ -11,8 +11,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve uploaded files statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Serve uploaded images from Cloudinary
+app.get('/uploads/:name', (req, res) => {
+  const id = req.params.name.replace(/\.[^.]+$/, '');
+  res.set('Cache-Control', 'public, max-age=86400');
+  res.redirect(
+    `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/${encodeURIComponent(id)}`
+  );
+});
 
 // ===== Routes =====
 const petRoutes = require('./routes/petRoutes');

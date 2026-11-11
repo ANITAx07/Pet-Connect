@@ -13,6 +13,3 @@ const getPetById = async (req, res) => {
 };
 
 module.exports = { getAllPets, getPetById };
-
-
-
