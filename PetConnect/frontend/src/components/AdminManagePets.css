@@ -62,3 +62,18 @@
   background-color: #ec971f;
 }
 
+.pet-card button:not(.status-toggle) {
+  background-color: #d77b5b;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  margin: 12px 6px 0;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.pet-card button:not(.status-toggle):hover {
+  background-color: #b45a3c;
+}
