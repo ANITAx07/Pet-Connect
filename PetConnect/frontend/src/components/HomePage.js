@@ -58,7 +58,7 @@ function HomePage() {
             🐾 Connecting kind hearts with paws in need — PetConnect helps you adopt, donate, and make a difference.
           </p>
           <div className="hero-buttons">
-            <button className="adopt-btn">Donate Now</button>
+            <button className="adopt-btn" onClick={() => navigate('/donate')}>Donate Now</button>
             <button className="learn-btn" onClick={() => setShowPostForm(true)}>Post Moments ❤️</button>
           </div>
 
